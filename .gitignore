@@ -26,6 +26,7 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
+out/
 
 # Optional npm cache directory
 .npm
@@ -36,6 +37,7 @@ jspm_packages
 # =========================
 # Operating System Files
 # =========================
+.idea/
 
 # OSX
 # =========================
