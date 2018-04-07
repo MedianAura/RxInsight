@@ -2,9 +2,12 @@ html, body {
     height: 100%;
 }
 
-.list-criteria {
-    min-height: 500px;
+.list-criteria-viewport {
+    min-height: 660px;
+    max-height: 660px;
+    margin-bottom: 19px;
     height: 100%;
+    overflow-y: scroll;
 }
 
 .border-bottom {
@@ -13,4 +16,15 @@ html, body {
 
 .editor-top {
     height: 400px;
+}
+
+.list-criteria-item {
+    position: relative;
+    min-height: 55px;
+}
+
+#criteria-preview {
+    height: 250px;
+    max-height: 250px;
+    overflow-y: auto;
 }

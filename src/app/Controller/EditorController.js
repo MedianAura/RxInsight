@@ -24,10 +24,12 @@ module.exports = Backbone.View.extend({
 
     // PUBLIC
     setCriteria: function (criteria) {
-        this.model = criteria;
         this.$el.empty();
-        this.render();
-        this.renderPreview();
+        this.model = criteria;
+        if (criteria !== null) {
+            this.render();
+            this.renderPreview();
+        }
     },
 
     // PRIVATE

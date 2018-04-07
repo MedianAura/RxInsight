@@ -2,7 +2,8 @@ const Backbone = require("backbone");
 const {sprintf} = require("sprintf-js");
 
 module.exports = Backbone.Model.extend({
-    initialize: function () {
+    initialize: function () {},
+    setDefaultValue: function () {
         this.set("given", "");
         this.set("when", "");
         this.set("then", "");
@@ -12,9 +13,9 @@ module.exports = Backbone.Model.extend({
         let given = "";
         let aGiven = this.get("given").split("\n");
         if (aGiven.length > 0) {
-            given = sprintf("(Given) %s", aGiven[0]);
+            given = sprintf("<span style='color: #AAAAAA;'>(Given)</span> %s", aGiven[0]);
             for (let i = 1; i < aGiven.length; i++) {
-                given += sprintf("<br />(and given) %s", aGiven[i]);
+                given += sprintf("<br /><span style='color: #AAAAAA;'>(and given)</span> %s", aGiven[i]);
             }
         }
 
@@ -25,9 +26,9 @@ module.exports = Backbone.Model.extend({
         let when = "";
         let aWhen = this.get("when").split("\n");
         if (aWhen.length > 0) {
-            when = sprintf("(When) %s", aWhen[0]);
+            when = sprintf("<span style='color: #AAAAAA;'>(When)</span> %s", aWhen[0]);
             for (let i = 1; i < aWhen.length; i++) {
-                when += sprintf("<br />(and when) %s", aWhen[i]);
+                when += sprintf("<br /><span style='color: #AAAAAA;'>(and when)</span> %s", aWhen[i]);
             }
         }
 
@@ -38,9 +39,9 @@ module.exports = Backbone.Model.extend({
         let then = "";
         let aThen = this.get("then").split("\n");
         if (aThen.length > 0) {
-            then = sprintf("(Then) %s", aThen[0]);
+            then = sprintf("<span style='color: #AAAAAA;'>(Then)</span> %s", aThen[0]);
             for (let i = 1; i < aThen.length; i++) {
-                then += sprintf("<br />(and then) %s", aThen[i]);
+                then += sprintf("<br /><span style='color: #AAAAAA;'>(and then)</span> %s", aThen[i]);
             }
         }
 

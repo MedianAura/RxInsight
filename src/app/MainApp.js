@@ -14,6 +14,7 @@ const MainApp = Backbone.View.extend({
     "template": "MainApp.twig",
 
     // DATA
+    oCurrentCriteria: null,
     oListCriteria: null,
     oEditorCtrl: null,
 
@@ -22,19 +23,20 @@ const MainApp = Backbone.View.extend({
     },
 
     initialize: function () {
+        this.oCurrentCriteria = null;
         this.oListCriteria = new Backbone.Collection(null, {model: Criteria});
 
         // Ensure our methods keep the `this` reference to the view itself
         lodash.bindAll(this, 'renderList');
 
         // Bind collection changes to re-rendering
+        this.oListCriteria.on('change', this.renderList);
         this.oListCriteria.on('reset', this.renderList);
         this.oListCriteria.on('add', this.renderList);
         this.oListCriteria.on('remove', this.renderList);
 
         this.render();
         this.oEditorCtrl = new EditorController();
-        this.addCriteria();
     },
     render: function () {
         this.$el.html(nunjucks.render(this.template));
@@ -48,6 +50,9 @@ const MainApp = Backbone.View.extend({
         this.oListCriteria.forEach(function (item) {
             let criteriaView = new CriteriaController({"model": item, "parent": self});
             criteriaView.render().$el.appendTo($container);
+            if (item === self.oCurrentCriteria) {
+                criteriaView.__highlightCurrent();
+            }
         });
 
         return this;
@@ -56,14 +61,28 @@ const MainApp = Backbone.View.extend({
     // PUBLIC
     showCriteria: function (criteria) {
         this.$el.find("#EditorPanel").html(this.oEditorCtrl.$el);
+        this.oCurrentCriteria = criteria;
         this.oEditorCtrl.setCriteria(criteria);
     },
     addCriteria: function () {
-        let oCriteriaController = new Criteria();
-        this.oListCriteria.add(oCriteriaController);
+        let oCriteria = new Criteria();
+        oCriteria.setDefaultValue();
+        this.oCurrentCriteria = oCriteria;
+        this.oListCriteria.add(oCriteria);
+        this.oEditorCtrl.setCriteria(oCriteria);
     },
     removeCriteria: function (criteria) {
+        if (criteria === this.oCurrentCriteria) {
+            this.oCurrentCriteria = null;
+            this.oEditorCtrl.setCriteria(null);
+        }
         this.oListCriteria.remove(criteria);
+    },
+    copyCriteria: function (criteria) {
+        let oCriteria = criteria.clone();
+        this.oCurrentCriteria = oCriteria;
+        this.oListCriteria.add(oCriteria);
+        this.oEditorCtrl.setCriteria(oCriteria);
     },
     sortCriteria: function () {
 
