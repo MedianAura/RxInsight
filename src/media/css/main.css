@@ -1,0 +1,16 @@
+html, body {
+    height: 100%;
+}
+
+.list-criteria {
+    min-height: 500px;
+    height: 100%;
+}
+
+.border-bottom {
+    border-bottom: 2px solid black;
+}
+
+.editor-top {
+    height: 400px;
+}
