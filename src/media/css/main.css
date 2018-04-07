@@ -28,3 +28,12 @@ html, body {
     max-height: 250px;
     overflow-y: auto;
 }
+
+#form-import-data {
+    height: 430px;
+}
+
+#PreviewPanel, #CodePanel {
+    max-height: 650px;
+    overflow-y: scroll;
+}

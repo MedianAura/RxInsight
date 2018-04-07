@@ -49,10 +49,10 @@ module.exports = Backbone.Model.extend({
     },
     prettyPrint: function () {
         let given = this.prettyGiven();
-        let then = this.prettyThen();
         let when = this.prettyWhen();
+        let then = this.prettyThen();
 
         if (given === "" && then === "" && when === "") return "";
-        return sprintf("%s<br />%s<br />%s", given, then, when);
+        return sprintf("%s<br />%s<br />%s", given, when, then);
     }
 });

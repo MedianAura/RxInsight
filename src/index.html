@@ -29,9 +29,12 @@
 				</div>
 				
 				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Editeur</a></li>
-						<li><a href="#">Preview</a></li>
+					<ul class="nav navbar-nav rx-main-navbar">
+						<li class="active btnEditor"><a href="#">Editeur</a></li>
+						<li class="btnPreview"><a href="#">Prévisualisé</a></li>
+						<li class="btnOpen"><a href="#">Ouvrir</a></li>
+						<li class="btnSave"><a href="#">Sauvegarder</a></li>
+						<li class="btnImport"><a href="#">Importer</a></li>
 					</ul>
 					
 					<ul class="nav navbar-nav navbar-right">
@@ -41,7 +44,29 @@
 			</div>
 		</nav>
 		
-		<div class="container-fluid" id="MainContent"></div>
+		<div class="container-fluid" id="MainContainer"></div>
+		<div class="container-fluid" id="PreviewContainer"></div>
+		
+		<div id="ImportModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Importer du Data</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="form-import-data">Importer</label>
+							<textarea id="form-import-data" class="form-control"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Importer</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		
 		<script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.js');</script>
 		<script src="../node_modules/jquery/dist/jquery.js"></script>
@@ -54,7 +79,7 @@
 
             $(function () {
                 $("#app-version").text(require("../package").version);
-                
+
                 try {
                     oMainApp = new MainApp();
                 } catch (e) {

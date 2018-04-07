@@ -10,7 +10,7 @@ const createWindow = () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1450,
-        height: 800,
+        height: 900,
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);

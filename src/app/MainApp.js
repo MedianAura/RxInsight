@@ -2,108 +2,118 @@ const Backbone = require("backbone");
 const nunjucks = require("nunjucks");
 const lodash = require("lodash");
 const path = require("path");
+const YAML = require('js-yaml');
+const jetpack = require('fs-jetpack');
+const remote = require('electron').remote;
+const {dialog} = require('electron').remote;
 
-const EditorController = require("./Controller/EditorController");
-const CriteriaController = require("./Controller/CriteriaController");
+const MainController = require("./Controller/MainController");
+const PreviewController = require("./Controller/PreviewController");
 const Criteria = require("./Model/Criteria");
 
 nunjucks.configure(path.resolve(__dirname, "./View/").replace(/\\/gmi, "/") + "/");
 
 const MainApp = Backbone.View.extend({
-    "el": "#MainContent",
-    "template": "MainApp.twig",
+    "el": "body",
 
     // DATA
-    oCurrentCriteria: null,
-    oListCriteria: null,
-    oEditorCtrl: null,
+    oMainCtrl: null,
+    oPreviewCtrl: null,
 
     events: {
-        "click #btnAddCriteria": "eventAddCriteria",
-        "sortupdate .list-criteria": "eventListSorted"
+        "click .btnEditor": "eventClickBtnEditor",
+        "click .btnPreview": "eventClickBtnPreview",
+        "click .btnOpen": "eventClickBtnOpen",
+        "click .btnSave": "eventClickBtnSave",
+        "click .btnImport": "eventClickBtnImport",
+        "click #ImportModal .btn-primary": "eventClickImportModal"
     },
 
     initialize: function () {
-        this.oCurrentCriteria = null;
-        this.oListCriteria = new Backbone.Collection(null, {model: Criteria});
-
-        // Ensure our methods keep the `this` reference to the view itself
-        lodash.bindAll(this, 'renderList');
-
-        // Bind collection changes to re-rendering
-        this.oListCriteria.on('change', this.renderList);
-        this.oListCriteria.on('reset', this.renderList);
-        this.oListCriteria.on('add', this.renderList);
-        this.oListCriteria.on('remove', this.renderList);
-
-        this.render();
-        this.oEditorCtrl = new EditorController();
-        $(".list-criteria").sortable();
+        this.oMainCtrl = new MainController();
+        this.oPreviewCtrl = new PreviewController();
+        this.showEditor();
     },
     render: function () {
-        this.$el.html(nunjucks.render(this.template));
-    },
-    renderList: function() {
-        let self = this;
-        let $container = this.$el.find(".list-criteria");
-        $container.empty();
-
-        // Go through the collection items
-        this.oListCriteria.forEach(function (item) {
-            let criteriaView = new CriteriaController({"model": item, "parent": self});
-            criteriaView.render().$el.appendTo($container);
-            if (item === self.oCurrentCriteria) {
-                criteriaView.__highlightCurrent();
-            }
-        });
-
-        return this;
     },
 
     // PUBLIC
-    showCriteria: function (criteria) {
-        this.$el.find("#EditorPanel").html(this.oEditorCtrl.$el);
-        this.oCurrentCriteria = criteria;
-        this.oEditorCtrl.setCriteria(criteria);
+    showEditor: function () {
+        this.oPreviewCtrl.$el.hide();
+        this.oMainCtrl.$el.show();
     },
-    addCriteria: function () {
-        let oCriteria = new Criteria();
-        oCriteria.setDefaultValue();
-        this.oCurrentCriteria = oCriteria;
-        this.oListCriteria.add(oCriteria);
-        this.oEditorCtrl.setCriteria(oCriteria);
-    },
-    removeCriteria: function (criteria) {
-        if (criteria === this.oCurrentCriteria) {
-            this.oCurrentCriteria = null;
-            this.oEditorCtrl.setCriteria(null);
-        }
-        this.oListCriteria.remove(criteria);
-    },
-    copyCriteria: function (criteria) {
-        let oCriteria = criteria.clone();
-        this.oCurrentCriteria = oCriteria;
-        this.oListCriteria.add(oCriteria);
-        this.oEditorCtrl.setCriteria(oCriteria);
-    },
-    sortCriteria: function () {
+    showPreview: function () {
+        this.oMainCtrl.$el.hide();
 
+        this.oPreviewCtrl.setModel(this.oMainCtrl.oListCriteria);
+        this.oPreviewCtrl.$el.show();
     },
 
     // PRIVATE
+    __changeActiveLink: function ($el) {
+        this.$el.find(".rx-main-navbar").find("li").removeClass("active");
+        $el.addClass("active");
+    },
+    __parseLoadedData: function (sData) {
+        let aListCriteria = [];
+        let oData = YAML.safeLoad(sData);
+        lodash.each(oData, function (item) {
+            let oCriteria = new Criteria();
+            oCriteria.set("given", item.given);
+            oCriteria.set("when", item.when);
+            oCriteria.set("then", item.then);
+            aListCriteria.push(oCriteria);
+        });
+        this.oMainCtrl.oListCriteria.reset(aListCriteria);
+        this.oPreviewCtrl.setModel(this.oMainCtrl.oListCriteria);
+    },
 
     // EVENTS
-    eventAddCriteria: function () {
-        this.addCriteria();
+    eventClickBtnEditor: function (event) {
+        $(event.target).blur();
+        let $el = $(event.target).closest("li");
+        this.showEditor();
+        this.__changeActiveLink($el);
     },
-    eventListSorted: function (event, ui) {
-        let self = this;
-        let aListCriteria = [];
-        $(".list-criteria").find(".list-criteria-item").each(function () {
-            let id = $(this).data("id");
-            aListCriteria.push(self.oListCriteria.get(id));
+    eventClickBtnPreview: function (event) {
+        $(event.target).blur();
+        let $el = $(event.target).closest("li");
+        this.showPreview();
+        this.__changeActiveLink($el);
+    },
+    eventClickBtnOpen: function (event) {
+        $(event.target).blur();
+        let sFile = dialog.showOpenDialog(remote.getCurrentWindow(), {
+            "properties": ['openFile', 'promptToCreate'], "filters": [
+                {name: 'Fichier YAML', extensions: ['yaml']},
+            ]
         });
-        self.oListCriteria.reset(aListCriteria);
+
+        if (sFile.length > 0) {
+            let sData = jetpack.read(sFile[0]);
+            this.__parseLoadedData(sData);
+        }
+    },
+    eventClickBtnSave: function (event) {
+        $(event.target).blur();
+        let sFile = dialog.showSaveDialog(remote.getCurrentWindow(), {
+            "filters": [
+                {name: 'Fichier YAML', extensions: ['yaml']},
+            ]
+        });
+
+        jetpack.write(sFile, YAML.safeDump(this.oMainCtrl.oListCriteria.toJSON()));
+    },
+    eventClickBtnImport: function (event) {
+        $(event.target).blur();
+        this.$el.find("#form-import-data").val("");
+        $('#ImportModal').modal('show');
+    },
+    eventClickImportModal: function () {
+        let sData = this.$el.find("#form-import-data").val();
+        $('#ImportModal').modal('hide');
+        this.$el.find("#form-import-data").val("");
+        this.__parseLoadedData(sData);
     }
 });
 
