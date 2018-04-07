@@ -19,7 +19,8 @@ const MainApp = Backbone.View.extend({
     oEditorCtrl: null,
 
     events: {
-        "click #btnAddCriteria": "eventAddCriteria"
+        "click #btnAddCriteria": "eventAddCriteria",
+        "sortupdate .list-criteria": "eventListSorted"
     },
 
     initialize: function () {
@@ -37,6 +38,7 @@ const MainApp = Backbone.View.extend({
 
         this.render();
         this.oEditorCtrl = new EditorController();
+        $(".list-criteria").sortable();
     },
     render: function () {
         this.$el.html(nunjucks.render(this.template));
@@ -94,6 +96,15 @@ const MainApp = Backbone.View.extend({
     eventAddCriteria: function () {
         this.addCriteria();
     },
+    eventListSorted: function (event, ui) {
+        let self = this;
+        let aListCriteria = [];
+        $(".list-criteria").find(".list-criteria-item").each(function () {
+            let id = $(this).data("id");
+            aListCriteria.push(self.oListCriteria.get(id));
+        });
+        self.oListCriteria.reset(aListCriteria);
+    }
 });
 
 module.exports = MainApp;

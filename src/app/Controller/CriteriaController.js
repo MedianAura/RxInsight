@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend({
     },
 
     initialize: function (options) {
+        this.$el.data("id", this.model.cid);
         this.parent = lodash.get(options, "parent", null);
         this.render();
     },
