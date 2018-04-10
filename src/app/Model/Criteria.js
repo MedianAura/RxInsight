@@ -4,9 +4,9 @@ const {sprintf} = require("sprintf-js");
 module.exports = Backbone.Model.extend({
     initialize: function () {},
     setDefaultValue: function () {
-        this.set("given", "");
-        this.set("when", "");
-        this.set("then", "");
+        this.set("given", "En considérant que ");
+        this.set("when", "Lorsque ");
+        this.set("then", "Alors ");
     },
     prettyGiven: function () {
         if (this.get("given").trim() === "") return "";

@@ -17,12 +17,14 @@ const MainApp = Backbone.View.extend({
     "el": "body",
 
     // DATA
+    oArgs: null,
     oMainCtrl: null,
     oPreviewCtrl: null,
 
     events: {
         "click .btnEditor": "eventClickBtnEditor",
         "click .btnPreview": "eventClickBtnPreview",
+        "click .btnNew": "eventClickBtnNew",
         "click .btnOpen": "eventClickBtnOpen",
         "click .btnSave": "eventClickBtnSave",
         "click .btnImport": "eventClickBtnImport",
@@ -30,6 +32,7 @@ const MainApp = Backbone.View.extend({
     },
 
     initialize: function () {
+        this.oArgs = remote.getGlobal('args');
         this.oMainCtrl = new MainController();
         this.oPreviewCtrl = new PreviewController();
         this.showEditor();
@@ -80,6 +83,12 @@ const MainApp = Backbone.View.extend({
         let $el = $(event.target).closest("li");
         this.showPreview();
         this.__changeActiveLink($el);
+    },
+    eventClickBtnNew: function (event) {
+        $(event.target).blur();
+        this.oMainCtrl.oListCriteria.reset();
+        this.oMainCtrl.oEditorCtrl.setCriteria(null);
+        this.oMainCtrl.addCriteria();
     },
     eventClickBtnOpen: function (event) {
         $(event.target).blur();
