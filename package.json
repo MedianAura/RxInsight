@@ -17,32 +17,24 @@
   "config": {
     "forge": {
       "make_targets": {
-        "win32": [
+        "x64": [
           "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "yarn",
+        "asar": true,
+        "quiet": true,
+        "ignore": [
+          ".idea"
+        ]
       },
       "electronWinstallerConfig": {
-        "name": "rxinsight"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
+        "name": "Insight"
       },
       "windowsStoreConfig": {
         "packageName": "",
-        "name": "rxinsight"
+        "name": "Insight"
       }
     }
   },
