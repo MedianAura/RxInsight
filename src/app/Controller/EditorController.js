@@ -9,7 +9,7 @@ module.exports = Backbone.View.extend({
     // DATA
 
     events: {
-        "blur textarea": "eventBlurInput"
+        "keyup textarea": "eventBlurInput"
     },
 
     initialize: function () {
@@ -44,7 +44,7 @@ module.exports = Backbone.View.extend({
     },
 
     // EVENTS
-    eventBlurInput: function (event) {
+    eventBlurInput: lodash.debounce(function (event) {
         let $el = $(event.target);
         let id = $el.closest("div").data("section");
         switch (id) {
@@ -60,5 +60,6 @@ module.exports = Backbone.View.extend({
         }
 
         this.renderPreview();
-    }
+    }, 150),
+
 });

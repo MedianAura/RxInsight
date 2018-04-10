@@ -5,7 +5,7 @@
   "description": "My Electron application description",
   "main": "src/index.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron-forge start -- --debug",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -39,8 +39,10 @@
     }
   },
   "dependencies": {
+    "argparse": "^1.0.10",
     "backbone": "^1.3.3",
     "bootstrap": "3.3.7",
+    "configstore": "^3.1.2",
     "electron-compile": "^6.4.2",
     "electron-squirrel-startup": "^1.0.0",
     "fs-jetpack": "^1.3.0",

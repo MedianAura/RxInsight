@@ -9,6 +9,7 @@ const {dialog} = require('electron').remote;
 
 const MainController = require("./Controller/MainController");
 const PreviewController = require("./Controller/PreviewController");
+const RedmineController = require("./Controller/RedmineController");
 const Criteria = require("./Model/Criteria");
 
 nunjucks.configure(path.resolve(__dirname, "./View/").replace(/\\/gmi, "/") + "/");
@@ -17,12 +18,16 @@ const MainApp = Backbone.View.extend({
     "el": "body",
 
     // DATA
+    oArgs: null,
     oMainCtrl: null,
     oPreviewCtrl: null,
+    oRedmineCtrl: null,
 
     events: {
         "click .btnEditor": "eventClickBtnEditor",
         "click .btnPreview": "eventClickBtnPreview",
+        "click .btnRedmine": "eventClickBtnRedmine",
+        "click .btnNew": "eventClickBtnNew",
         "click .btnOpen": "eventClickBtnOpen",
         "click .btnSave": "eventClickBtnSave",
         "click .btnImport": "eventClickBtnImport",
@@ -30,8 +35,10 @@ const MainApp = Backbone.View.extend({
     },
 
     initialize: function () {
+        this.oArgs = remote.getGlobal('args');
         this.oMainCtrl = new MainController();
         this.oPreviewCtrl = new PreviewController();
+        this.oRedmineCtrl = new RedmineController();
         this.showEditor();
     },
     render: function () {
@@ -39,14 +46,20 @@ const MainApp = Backbone.View.extend({
 
     // PUBLIC
     showEditor: function () {
-        this.oPreviewCtrl.$el.hide();
+        this.$el.find(".app-container-panel").hide();
         this.oMainCtrl.$el.show();
     },
     showPreview: function () {
-        this.oMainCtrl.$el.hide();
+        this.$el.find(".app-container-panel").hide();
 
         this.oPreviewCtrl.setModel(this.oMainCtrl.oListCriteria);
         this.oPreviewCtrl.$el.show();
+    },
+    showRedmine: function () {
+        this.$el.find(".app-container-panel").hide();
+
+        this.oRedmineCtrl.setModel(this.oMainCtrl.oListCriteria);
+        this.oRedmineCtrl.$el.show();
     },
 
     // PRIVATE
@@ -80,6 +93,18 @@ const MainApp = Backbone.View.extend({
         let $el = $(event.target).closest("li");
         this.showPreview();
         this.__changeActiveLink($el);
+    },
+    eventClickBtnRedmine: function (event) {
+        $(event.target).blur();
+        let $el = $(event.target).closest("li");
+        this.showRedmine();
+        this.__changeActiveLink($el);
+    },
+    eventClickBtnNew: function (event) {
+        $(event.target).blur();
+        this.oMainCtrl.oListCriteria.reset();
+        this.oMainCtrl.oEditorCtrl.setCriteria(null);
+        this.oMainCtrl.addCriteria();
     },
     eventClickBtnOpen: function (event) {
         $(event.target).blur();

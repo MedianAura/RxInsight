@@ -36,6 +36,8 @@ module.exports = Backbone.View.extend({
         this.render();
         this.oEditorCtrl = new EditorController();
         $(".list-criteria").sortable();
+
+        this.addCriteria();
     },
     render: function () {
         this.$el.html(nunjucks.render(this.template));
