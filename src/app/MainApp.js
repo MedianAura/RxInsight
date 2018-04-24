@@ -80,6 +80,44 @@ const MainApp = Backbone.View.extend({
         this.oMainCtrl.oListCriteria.reset(aListCriteria);
         this.oPreviewCtrl.setModel(this.oMainCtrl.oListCriteria);
     },
+    __parseFormatedText: function (sData) {
+        const RegEx = require('regex-match-all');
+        let aLine = sData.replace(/\r\n/gmi, "\n").split("\n");
+
+        const updateCriteriaField = function (oCriteria, fullMatch, fieldType, field, text) {
+            if (fieldType.toLowerCase() === field) {
+
+                if (fullMatch.toLowerCase().indexOf("or") > -1) {
+                    oCriteria.set(field, oCriteria.get(field) + "\r\n~ " + text);
+                } else if (fullMatch.toLowerCase().indexOf("and") > -1) {
+                    oCriteria.set(field, oCriteria.get(field) + "\r\n" + text);
+                } else {
+                    oCriteria.set(field, text);
+                }
+            }
+        };
+
+        let aListCriteria = [];
+        let oCriteria = new Criteria();
+        lodash.each(aLine, function (sLine, ndx) {
+            if (sLine.trim() === "" && ndx !== 0) {
+                aListCriteria.push(oCriteria);
+                oCriteria = new Criteria();
+                return;
+            }
+
+            let oMatch = RegEx.matchAll(/\((?:and|or)?\s*(given|when|then)\)/gmi, sLine);
+            let sCondition = sLine.replace(oMatch[0][0], "").trim();
+
+            updateCriteriaField(oCriteria, oMatch[0][0], oMatch[1][0], "given", sCondition);
+            updateCriteriaField(oCriteria, oMatch[0][0], oMatch[1][0], "when", sCondition);
+            updateCriteriaField(oCriteria, oMatch[0][0], oMatch[1][0], "then", sCondition);
+        });
+
+        aListCriteria.push(oCriteria);
+        this.oMainCtrl.oListCriteria.reset(aListCriteria);
+        this.oPreviewCtrl.setModel(this.oMainCtrl.oListCriteria);
+    },
 
     // EVENTS
     eventClickBtnEditor: function (event) {
@@ -138,7 +176,7 @@ const MainApp = Backbone.View.extend({
         let sData = this.$el.find("#form-import-data").val();
         $('#ImportModal').modal('hide');
         this.$el.find("#form-import-data").val("");
-        this.__parseLoadedData(sData);
+        this.__parseFormatedText(sData);
     }
 });
 

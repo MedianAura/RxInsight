@@ -15,7 +15,11 @@ module.exports = Backbone.Model.extend({
         if (aGiven.length > 0) {
             given = sprintf("<span style='color: #AAAAAA;'>(Given)</span> %s", aGiven[0]);
             for (let i = 1; i < aGiven.length; i++) {
-                given += sprintf("<br /><span style='color: #AAAAAA;'>(and given)</span> %s", aGiven[i]);
+                if (aGiven[i].indexOf("~") === 0) {
+                    given += sprintf("<br /><span style='color: #AAAAAA;'>(or given)</span> %s", aGiven[i].replace("~", ""));
+                } else {
+                    given += sprintf("<br /><span style='color: #AAAAAA;'>(and given)</span> %s", aGiven[i]);
+                }
             }
         }
 
@@ -28,7 +32,11 @@ module.exports = Backbone.Model.extend({
         if (aWhen.length > 0) {
             when = sprintf("<span style='color: #AAAAAA;'>(When)</span> %s", aWhen[0]);
             for (let i = 1; i < aWhen.length; i++) {
-                when += sprintf("<br /><span style='color: #AAAAAA;'>(and when)</span> %s", aWhen[i]);
+                if (aWhen[i].indexOf("~") === 0) {
+                    when += sprintf("<br /><span style='color: #AAAAAA;'>(or when)</span> %s", aWhen[i].replace("~", ""));
+                } else {
+                    when += sprintf("<br /><span style='color: #AAAAAA;'>(and when)</span> %s", aWhen[i]);
+                }
             }
         }
 
@@ -41,7 +49,11 @@ module.exports = Backbone.Model.extend({
         if (aThen.length > 0) {
             then = sprintf("<span style='color: #AAAAAA;'>(Then)</span> %s", aThen[0]);
             for (let i = 1; i < aThen.length; i++) {
-                then += sprintf("<br /><span style='color: #AAAAAA;'>(and then)</span> %s", aThen[i]);
+                if (aThen[i].indexOf("~") === 0) {
+                    then += sprintf("<br /><span style='color: #AAAAAA;'>(or then)</span> %s", aThen[i].replace("~", ""));
+                } else {
+                    then += sprintf("<br /><span style='color: #AAAAAA;'>(and then)</span> %s", aThen[i]);
+                }
             }
         }
 

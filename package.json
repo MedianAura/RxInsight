@@ -51,6 +51,7 @@
     "js-yaml": "^3.11.0",
     "lodash": "^4.17.5",
     "nunjucks": "^3.1.2",
+    "regex-match-all": "^1.0.2",
     "sprintf-js": "^1.1.1"
   },
   "devDependencies": {
