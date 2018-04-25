@@ -107,7 +107,7 @@ const MainApp = Backbone.View.extend({
             }
 
             let oMatch = RegEx.matchAll(/\((?:and|or)?\s*(given|when|then)\)/gmi, sLine);
-            let sCondition = sLine.replace(oMatch[0][0], "").trim();
+            let sCondition = sLine.split(oMatch[0][0])[1].trim();
 
             updateCriteriaField(oCriteria, oMatch[0][0], oMatch[1][0], "given", sCondition);
             updateCriteriaField(oCriteria, oMatch[0][0], oMatch[1][0], "when", sCondition);
