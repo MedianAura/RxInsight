@@ -1,6 +1,6 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Criteria} from '@model/criteria'
-import {AddCriteria, CloneCriteria, RemoveCriteria} from '@actions/criteria.actions';
+import {AddCriteria, CloneCriteria, EmptyCriteria, ImportCriteria, RemoveCriteria} from '@actions/criteria.actions';
 import {cloneDeep} from 'lodash';
 
 export class CriteriaStateModel {
@@ -44,6 +44,23 @@ export class CriteriaState {
     clone({getState, patchState}: StateContext<CriteriaStateModel>, {payload}: CloneCriteria) {
         const state = getState();
         state.criterias.push(cloneDeep(payload));
+
+        patchState({
+            criterias: state.criterias
+        })
+    }
+
+    @Action(EmptyCriteria)
+    empty({patchState}: StateContext<CriteriaStateModel>) {
+        patchState({
+            criterias: []
+        })
+    }
+
+    @Action(ImportCriteria)
+    import({getState, patchState}: StateContext<CriteriaStateModel>, {payload}: ImportCriteria) {
+        const state = getState();
+        state.criterias = payload;
 
         patchState({
             criterias: state.criterias

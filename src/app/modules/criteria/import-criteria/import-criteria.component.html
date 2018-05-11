@@ -9,11 +9,11 @@
 			<div class="modal-body">
 				<div class="form-group">
 					<label for="form-import-data">Importer</label>
-					<textarea id="form-import-data" class="form-control"></textarea>
+					<textarea id="form-import-data" class="form-control" [(ngModel)]="criteriaText"></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary">Importer</button>
+				<button type="button" class="btn btn-primary" (click)="importCriteria()">Importer</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
 			</div>
 		</div>

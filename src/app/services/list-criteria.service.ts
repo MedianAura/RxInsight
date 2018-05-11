@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AddCriteria, CloneCriteria, RemoveCriteria} from "@actions/criteria.actions";
+import {AddCriteria, CloneCriteria, EmptyCriteria, ImportCriteria, RemoveCriteria} from "@actions/criteria.actions";
 import {lorem} from "faker";
 import {Criteria} from "@model/criteria";
 import {Select, Store} from "@ngxs/store";
@@ -24,7 +24,9 @@ export class ListCriteriaService {
     }
 
     addCriteria() {
-        this.store.dispatch(new AddCriteria(new Criteria(lorem.paragraph(2))))
+        let criteria = new Criteria();
+        criteria.setDefaultValue();
+        this.store.dispatch(new AddCriteria(criteria));
     }
 
     deleteCriteria(ndx: number) {
@@ -33,5 +35,13 @@ export class ListCriteriaService {
 
     cloneCriteria(criteria: Criteria) {
         this.store.dispatch(new CloneCriteria(criteria));
+    }
+
+    emptyCriteria() {
+        this.store.dispatch(new EmptyCriteria());
+    }
+
+    importCriteria(criteria: Criteria[]) {
+        this.store.dispatch(new ImportCriteria(criteria));
     }
 }

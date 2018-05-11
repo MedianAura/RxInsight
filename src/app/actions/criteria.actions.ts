@@ -20,3 +20,17 @@ export class CloneCriteria {
     constructor(public payload: Criteria) {
     }
 }
+
+export class EmptyCriteria {
+    static readonly type = '[Criteria] Empty';
+
+    constructor() {
+    }
+}
+
+export class ImportCriteria {
+    static readonly type = '[Criteria] Import';
+
+    constructor(public payload: Criteria[]) {
+    }
+}

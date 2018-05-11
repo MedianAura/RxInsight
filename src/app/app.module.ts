@@ -10,10 +10,13 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { states } from './app.state';
 
 import { environment } from '../environments/environment';
+import { DialogDirective } from './directives/dialog.directive';
+import {ImportCriteriaComponent} from "./modules/criteria/import-criteria/import-criteria.component";
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        DialogDirective
     ],
     imports: [
         BrowserModule,
@@ -26,7 +29,11 @@ import { environment } from '../environments/environment';
             disabled: environment.production
         })
     ],
-    bootstrap: [AppComponent]
+    exports: [
+        DialogDirective
+    ],
+    bootstrap: [AppComponent],
+    entryComponents: [ImportCriteriaComponent]
 })
 export class AppModule {
 }

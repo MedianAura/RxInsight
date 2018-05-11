@@ -4,7 +4,7 @@ import {SharedModule} from "../shared/shared.module";
 import {CriteriaComponent} from './criteria/criteria.component';
 import {ListCriteriaComponent} from './list-criteria/list-criteria.component';
 import {FormsModule} from "@angular/forms";
-import { ImportCriteriaComponent } from './import-criteria/import-criteria.component';
+import {ImportCriteriaComponent} from './import-criteria/import-criteria.component';
 
 @NgModule({
     imports: [
@@ -13,7 +13,7 @@ import { ImportCriteriaComponent } from './import-criteria/import-criteria.compo
         SharedModule
     ],
     declarations: [CriteriaComponent, ListCriteriaComponent, ImportCriteriaComponent],
-    exports: [ListCriteriaComponent]
+    exports: [ListCriteriaComponent, ImportCriteriaComponent],
 })
 export class CriteriaModule {
 }

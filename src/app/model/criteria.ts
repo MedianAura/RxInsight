@@ -6,8 +6,8 @@ export class Criteria {
     public then: string;
     public isShown: boolean;
 
-    constructor(given: string) {
-        this.given = given;
+    constructor() {
+        this.given = "";
         this.when = "";
         this.then = "";
         this.isShown = false;
@@ -17,6 +17,15 @@ export class Criteria {
         this.given = "En considérant que ";
         this.when = "Lorsque ";
         this.then = "Alors ";
+    }
+
+    get(key: string) {
+        return this[key];
+    }
+
+    set(key: string, value: string): Criteria {
+        this[key] = value;
+        return this;
     }
 
     prettyGiven(): string {
