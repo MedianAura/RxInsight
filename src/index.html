@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -6,95 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<title>Insight</title>
-		
-		<!-- Bootstrap -->
-		<link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-		<link href="./media/css/main.css" rel="stylesheet">
-		
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
+		<base href="/">
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
 	</head>
 	<body>
-		<nav class="navbar navbar-default navbar-static-top navbar-inverse">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand">
-						<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-						Insight
-					</a>
-				</div>
-				
-				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav rx-main-navbar">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fichier <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li class="btnNew"><a href="#">Nouveau</a></li>
-								<li role="separator" class="divider"></li>
-								<li class="btnOpen"><a href="#">Ouvrir</a></li>
-								<li class="btnSave"><a href="#">Sauvegarder</a></li>
-								<li class="btnImport"><a href="#">Importer</a></li>
-							</ul>
-						</li>
-						<li class="active btnEditor"><a href="#">Editeur</a></li>
-						<li class="btnPreview"><a href="#">Prévisualisé</a></li>
-						<!--<li class="btnRedmine"><a href="#">Redmine</a></li>-->
-					</ul>
-					
-					<ul class="nav navbar-nav navbar-right">
-						<li><p class="navbar-text">v.&nbsp;<span id="app-version"></span></p></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		
-		<div class="container-fluid app-container-panel" id="MainContainer"></div>
-		<div class="container-fluid app-container-panel" id="PreviewContainer"></div>
-		<div class="container app-container-panel" id="RedmineContainer"></div>
-		
-		<div id="ImportModal" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">Importer du Data</h4>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="form-import-data">Importer</label>
-							<textarea id="form-import-data" class="form-control"></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">Importer</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.js');</script>
-		<script src="../node_modules/jquery/dist/jquery.js"></script>
-		<script src="./media/vendor/jquery-ui/jquery-ui.js"></script>
-		<script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
-		
-		<script type="text/javascript">
-            const MainApp = require("./app/MainApp");
-            let oMainApp = null;
-
-            $(function () {
-                $("#app-version").text(require("../package").version);
-
-                try {
-                    oMainApp = new MainApp();
-                } catch (e) {
-                    console.error(e);
-                }
-            });
-		</script>
+		<app-root></app-root>
 	</body>
 </html>
