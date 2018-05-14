@@ -1,22 +1,35 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import data from '../../package.json';
 import {ListCriteriaService} from "@services/list-criteria.service";
 import {Criteria} from "@model/criteria";
 import {ModalFactoryService} from "@services/modal-factory.service";
+import {ElectronService} from "ngx-electron";
+import {safeLoad} from 'js-yaml';
+import {each} from 'lodash';
+import {FsService} from "@services/fs.service";
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     version: string;
     saveFilePath: string;
 
-    constructor(private listCriteria: ListCriteriaService, private modalFactory: ModalFactoryService, private viewContainerRef: ViewContainerRef) {
+    constructor(
+        private listCriteria: ListCriteriaService,
+        private modalFactory: ModalFactoryService,
+        private viewContainerRef: ViewContainerRef,
+        private electronService: ElectronService,
+        private fsService: FsService
+    ) {
         this.version = data.version;
-
         this.modalFactory.setRootViewContainerRef(viewContainerRef);
+    }
+
+    ngOnInit() {
+        $(".navbar-collapse .dropdown").on("click", "a", (e) => e.preventDefault());
     }
 
     newFile() {
@@ -25,12 +38,20 @@ export class AppComponent {
     }
 
     openFile() {
-        // TODO : Select a File to open and Set the saveFilePath
         let aListCriteria: Criteria[] = [];
 
-        this.listCriteria.emptyCriteria();
-        this.listCriteria.importCriteria(aListCriteria);
-        this.saveFilePath = "";
+        let remote = this.electronService.remote;
+        let dialog = remote.dialog;
+        let sFile = dialog.showOpenDialog(remote.getCurrentWindow(), {
+            "properties": ['openFile', 'promptToCreate'], "filters": [
+                {name: 'Fichier YAML', extensions: ['yaml']},
+            ]
+        });
+
+        if (sFile.length > 0) {
+            this.saveFilePath = sFile[0];
+            this.__parseLoadedData(this.fsService.readFile(this.saveFilePath));
+        }
     }
 
     saveFile(): boolean {
@@ -41,18 +62,39 @@ export class AppComponent {
     }
 
     saveFileAs(): boolean {
-        // TODO : Select the File to Save Into
+        let remote = this.electronService.remote;
+        let dialog = remote.dialog;
+        this.saveFilePath = dialog.showSaveDialog(remote.getCurrentWindow(), {
+            "filters": [
+                {name: 'Fichier YAML', extensions: ['yaml']},
+            ]
+        });
 
         return this.saveCurrentFile();
     }
 
     openImportDialog() {
-        // TODO : Open a Component Dialog
         this.modalFactory.addDynamicComponent();
     }
 
     private saveCurrentFile(): boolean {
-        // TODO : Create Save Logic
+        console.log(this.listCriteria.getAllCriteria());
+        // jetpack.write(this.saveFilePath, safeDump());
         return true;
+    }
+
+    private __parseLoadedData(sData) {
+        let aListCriteria = [];
+        let oData = safeLoad(sData);
+        each(oData, function (item) {
+            let oCriteria = new Criteria();
+            oCriteria.given = item.given;
+            oCriteria.when = item.when;
+            oCriteria.then = item.then;
+            aListCriteria.push(oCriteria);
+        });
+
+        this.listCriteria.emptyCriteria();
+        this.listCriteria.importCriteria(aListCriteria);
     }
 }
