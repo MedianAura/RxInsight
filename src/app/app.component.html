@@ -23,8 +23,8 @@
 							<li (click)="openImportDialog()"><a>Importer</a></li>
 						</ul>
 					</li>
-					<li class="active"><a>Editeur</a></li>
-					<li><a>Prévisualisé</a></li>
+					<li routerLinkActive="active"><a routerLink="/home">Editeur</a></li>
+					<li routerLinkActive="active"><a routerLink="/preview">Prévisualisé</a></li>
 					<!--<li"><a>Redmine</a></li>-->
 				</ul>
 				
@@ -35,7 +35,7 @@
 		</div>
 	</nav>
 	
-	<app-list-criteria></app-list-criteria>
+	<router-outlet></router-outlet>
 </div>
 
 <ng-template app-dialog></ng-template>

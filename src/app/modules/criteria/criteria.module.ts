@@ -7,14 +7,18 @@ import {FormsModule} from "@angular/forms";
 import {ImportCriteriaComponent} from './import-criteria/import-criteria.component';
 import {DragulaModule} from "ng2-dragula";
 
+import {CriteriaRoutingModule} from "./criteria-routing.module";
+import { PreviewCriteriaComponent } from './preview-criteria/preview-criteria.component';
+
 @NgModule({
     imports: [
         DragulaModule,
         CommonModule,
         FormsModule,
-        SharedModule
+        SharedModule,
+        CriteriaRoutingModule
     ],
-    declarations: [CriteriaComponent, ListCriteriaComponent, ImportCriteriaComponent],
+    declarations: [CriteriaComponent, ListCriteriaComponent, ImportCriteriaComponent, PreviewCriteriaComponent],
     exports: [ListCriteriaComponent, ImportCriteriaComponent],
 })
 export class CriteriaModule {

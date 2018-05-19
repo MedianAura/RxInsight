@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
+import {ListCriteriaComponent} from "./modules/criteria/list-criteria/list-criteria.component";
 
 export const routes: Routes = [
-    {path: '', pathMatch: 'full', redirectTo: '/list'},
-    {path: 'list', loadChildren: './list/list.module#ListModule'},
-    {path: 'detail', loadChildren: './detail/detail.module#DetailModule'}
+    {path: '', pathMatch: 'full', redirectTo: '/home'},
+    {path: 'home', component: ListCriteriaComponent}
 ];

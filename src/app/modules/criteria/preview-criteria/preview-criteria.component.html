@@ -1,0 +1,15 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<h4>Résultat</h4>
+			<div id="PreviewPanel" class="panel panel-default">
+				<div class="panel-body" [innerHTML]="getAllCriteria() | rawHtml"></div>
+			</div>
+		</div>
+		
+		<!--<div class="col-sm-6">-->
+			<!--<h4>Code</h4>-->
+			<!--<pre id="CodePanel"><code>{{ getAllCriteria() }}</code></pre>-->
+		<!--</div>-->
+	</div>
+</div>

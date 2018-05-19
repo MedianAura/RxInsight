@@ -6,11 +6,3 @@
     bottom: 0;
     text-align: center;
 }
-
-.sortable-ghost {
-    opacity: .2;
-}
-
-.sortable-drag {
-    background: #daf4ff;
-}

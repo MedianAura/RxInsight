@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AddCriteria, CloneCriteria, EmptyCriteria, ImportCriteria, RemoveCriteria} from "@actions/criteria.actions";
-import {lorem} from "faker";
 import {Criteria} from "@model/criteria";
 import {Select, Store} from "@ngxs/store";
 import {Observable} from "rxjs";
@@ -43,5 +42,18 @@ export class ListCriteriaService {
 
     importCriteria(criteria: Criteria[]) {
         this.store.dispatch(new ImportCriteria(criteria));
+    }
+
+    prettyPrint(): string {
+        let displayCriteria = "<ol>\n";
+
+        this.criterias$.subscribe((oList: Criteria[]) => {
+            oList.forEach(function (oCriteria: Criteria) {
+                displayCriteria += "\t<li><p>" + oCriteria.prettyPrint() + "</p></li>\n";
+            });
+        });
+
+        displayCriteria += "</ol>\n";
+        return displayCriteria;
     }
 }

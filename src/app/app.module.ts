@@ -1,7 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {NgxElectronModule} from "ngx-electron";
+import {DragulaModule} from "ng2-dragula";
 import {AppComponent} from './app.component';
 import {CriteriaModule} from './modules/criteria/criteria.module'
 import {NgxsModule} from '@ngxs/store';
@@ -11,8 +13,9 @@ import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {states} from './app.state';
 import {ImportCriteriaComponent} from "./modules/criteria/import-criteria/import-criteria.component";
 
+import {routes} from './app.routes'
 import {environment} from '../environments/environment';
-import {DragulaModule} from "ng2-dragula";
+
 
 @NgModule({
     declarations: [
@@ -24,6 +27,7 @@ import {DragulaModule} from "ng2-dragula";
         NgxElectronModule,
         DragulaModule,
         CriteriaModule,
+        RouterModule.forRoot(routes),
         NgxsModule.forRoot(states),
         NgxsFormPluginModule.forRoot(),
         NgxsLoggerPluginModule.forRoot({logger: console, collapsed: false}),
