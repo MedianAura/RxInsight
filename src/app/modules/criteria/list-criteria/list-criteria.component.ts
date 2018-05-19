@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Criteria} from "@model/criteria";
 import {Observable} from "rxjs";
 import {ListCriteriaService} from "@services/list-criteria.service";
+import {DragulaService} from "ng2-dragula";
+import {CriteriaComponent} from "../criteria/criteria.component";
 
 @Component({
     selector: 'app-list-criteria',
@@ -9,7 +11,13 @@ import {ListCriteriaService} from "@services/list-criteria.service";
     styleUrls: ['./list-criteria.component.css']
 })
 export class ListCriteriaComponent implements OnInit {
-    constructor(private listCriteria: ListCriteriaService) {
+
+    @ViewChildren(CriteriaComponent) criteriaViewChild: QueryList<CriteriaComponent>;
+
+    constructor(private listCriteria: ListCriteriaService, private dragulaService: DragulaService) {
+        dragulaService.drop.subscribe((value) => {
+            this.onDrop();
+        });
     }
 
     ngOnInit() {
@@ -27,11 +35,23 @@ export class ListCriteriaComponent implements OnInit {
         this.listCriteria.cloneCriteria(criteria);
     }
 
+    sortCriteria() {
+        let listCriteriaComponent: CriteriaComponent[] = this.criteriaViewChild.toArray();
+        let listCriteria: Criteria[] = [];
+
+        listCriteriaComponent.forEach(function (oCriteriaComponent: CriteriaComponent) {
+            listCriteria.push(oCriteriaComponent.criteria);
+        });
+
+        this.listCriteria.emptyCriteria();
+        this.listCriteria.importCriteria(listCriteria);
+    }
+
     getAllCriteria(): Observable<Criteria[]> {
         return this.listCriteria.getAllCriteria();
     }
 
-    getCriteria(ndx: number): Observable<Criteria> {
-        return this.listCriteria.getCriteria(ndx);
+    private onDrop() {
+        this.sortCriteria();
     }
 }

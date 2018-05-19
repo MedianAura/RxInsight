@@ -41,9 +41,15 @@ const createWindow = () => {
         height: 900,
     });
 
+    // mainWindow.loadURL(url.format({
+    //     pathname: path.join(__dirname, '../dist/index.html'),
+    //     protocol: 'file:',
+    //     slashes: true
+    // }));
+
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, '../dist/index.html'),
-        protocol: 'file:',
+        pathname: 'localhost:4200',
+        protocol: 'http:',
         slashes: true
     }));
 

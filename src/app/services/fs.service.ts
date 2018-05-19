@@ -22,4 +22,8 @@ export class FsService {
     readFile(filepath: string): string {
         return this.jetpack.read(filepath);
     }
+
+    saveFile(filepath: string, content: string): string {
+        return this.jetpack.write(filepath, content);
+    }
 }

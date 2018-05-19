@@ -5,9 +5,11 @@ import {CriteriaComponent} from './criteria/criteria.component';
 import {ListCriteriaComponent} from './list-criteria/list-criteria.component';
 import {FormsModule} from "@angular/forms";
 import {ImportCriteriaComponent} from './import-criteria/import-criteria.component';
+import {DragulaModule} from "ng2-dragula";
 
 @NgModule({
     imports: [
+        DragulaModule,
         CommonModule,
         FormsModule,
         SharedModule

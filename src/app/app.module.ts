@@ -12,6 +12,7 @@ import {states} from './app.state';
 import {ImportCriteriaComponent} from "./modules/criteria/import-criteria/import-criteria.component";
 
 import {environment} from '../environments/environment';
+import {DragulaModule} from "ng2-dragula";
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import {environment} from '../environments/environment';
         BrowserModule,
         FormsModule,
         NgxElectronModule,
+        DragulaModule,
         CriteriaModule,
         NgxsModule.forRoot(states),
         NgxsFormPluginModule.forRoot(),

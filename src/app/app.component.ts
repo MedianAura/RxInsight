@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import data from '../../package.json';
+// import data = require('../../packages.json');
 import {ListCriteriaService} from "@services/list-criteria.service";
 import {Criteria} from "@model/criteria";
 import {ModalFactoryService} from "@services/modal-factory.service";
 import {ElectronService} from "ngx-electron";
-import {safeLoad} from 'js-yaml';
+import {safeDump, safeLoad} from 'js-yaml';
 import {each} from 'lodash';
 import {FsService} from "@services/fs.service";
 
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
         private electronService: ElectronService,
         private fsService: FsService
     ) {
-        this.version = data.version;
+        this.version = "FUCK YOU !!!";
         this.modalFactory.setRootViewContainerRef(viewContainerRef);
     }
 
@@ -38,8 +38,6 @@ export class AppComponent implements OnInit {
     }
 
     openFile() {
-        let aListCriteria: Criteria[] = [];
-
         let remote = this.electronService.remote;
         let dialog = remote.dialog;
         let sFile = dialog.showOpenDialog(remote.getCurrentWindow(), {
@@ -78,8 +76,9 @@ export class AppComponent implements OnInit {
     }
 
     private saveCurrentFile(): boolean {
-        console.log(this.listCriteria.getAllCriteria());
-        // jetpack.write(this.saveFilePath, safeDump());
+        this.listCriteria.getAllCriteria().subscribe((listCreteria: Criteria[]) => {
+            this.fsService.saveFile(this.saveFilePath, safeDump(listCreteria));
+        }).unsubscribe();
         return true;
     }
 
