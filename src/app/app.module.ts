@@ -5,7 +5,9 @@ import {FormsModule} from "@angular/forms";
 import {NgxElectronModule} from "ngx-electron";
 import {DragulaModule} from "ng2-dragula";
 import {AppComponent} from './app.component';
+import {NavigationComponent} from './navigation/navigation.component';
 import {CriteriaModule} from './modules/criteria/criteria.module'
+import {WorkspaceModule} from "./modules/workspace/workspace.module";
 import {NgxsModule} from '@ngxs/store';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsFormPluginModule} from '@ngxs/form-plugin';
@@ -19,7 +21,8 @@ import {environment} from '../environments/environment';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NavigationComponent
     ],
     imports: [
         BrowserModule,
@@ -27,6 +30,7 @@ import {environment} from '../environments/environment';
         NgxElectronModule,
         DragulaModule,
         CriteriaModule,
+        WorkspaceModule,
         RouterModule.forRoot(routes),
         NgxsModule.forRoot(states),
         NgxsFormPluginModule.forRoot(),

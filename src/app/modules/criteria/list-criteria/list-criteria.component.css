@@ -1,8 +1,0 @@
-@import "../../../../../node_modules/dragula/dist/dragula.css";
-
-.btn-add {
-    font-size: 60px;
-    position: fixed;
-    bottom: 0;
-    text-align: center;
-}

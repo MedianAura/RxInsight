@@ -1,0 +1,20 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="pull-right">
+				<span (click)="createFile()" class="glyphicon glyphicon-file" aria-hidden="true"></span>
+				<span (click)="createDirectory()" class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+			</div>
+			
+			<h3>Liste</h3>
+			
+			<div>
+				<app-workspace-folder [folder]="getWorkspaceFolder() | async"></app-workspace-folder>
+			</div>
+		</div>
+		
+		<div class="col-sm-9">
+			<h3>Contenu</h3>
+		</div>
+	</div>
+</div>

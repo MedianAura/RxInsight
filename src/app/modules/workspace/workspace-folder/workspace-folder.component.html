@@ -1,0 +1,22 @@
+<ul [class.workspace-folder]="folder.level > 0" [class.root-folder]="folder.level === 0" #workspaceFolderRef>
+	<li *ngIf="folder.isNew">
+		<div>
+			<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp;&nbsp;
+			<input class="form-control create-element" type="text" name="newFolder"
+			       title="newFolder" [(ngModel)]="elementFolderName" (blur)="createFolderElement()" #createElement/>
+		</div>
+	</li>
+	
+	<li *ngIf="folder.level > 0 && !folder.isNew" (click)="selectFolder($event)" [class.selected]="folder.selected">
+			<span (click)="toggleChildren($event)"
+			      class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>&nbsp;&nbsp;{{ folder.name }}
+	</li>
+	
+	<app-workspace-folder *ngFor="let child of folder.folders"
+	                      class="child-element" [folder]="child" [class.hide]="folder.level > 0" (onCreate)="showChildElement()">
+	</app-workspace-folder>
+	
+	<ul class="child-element" [class.hide]="folder.level > 0">
+		<li app-workspace-file *ngFor="let file of folder.files" [file]="file"></li>
+	</ul>
+</ul>

@@ -1,0 +1,11 @@
+<ng-container *ngIf="file.isNew">
+	<div>
+		<span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;&nbsp;
+		<input class="form-control create-element" type="text" name="newFile"
+		       title="newFile" [(ngModel)]="elementFileName" (blur)="createFileElement()" #createElement />
+	</div>
+</ng-container>
+
+<ng-container *ngIf="!file.isNew">
+	<span class="glyphicon glyphicon-file" aria-hidden="true"></span>&nbsp;&nbsp;{{ file.name }}
+</ng-container>
