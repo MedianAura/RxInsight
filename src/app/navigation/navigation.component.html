@@ -21,15 +21,12 @@
 						<li (click)="openImportDialog()"><a>Importer</a></li>
 					</ul>
 				</li>
-				<li class="dropdown" app-workspace-menu *ngIf="isElectron"></li>
 				<li routerLinkActive="active"><a routerLink="/home">Editeur</a></li>
 				<li routerLinkActive="active"><a routerLink="/preview">Prévisualisé</a></li>
 				<!--<li"><a>Redmine</a></li>-->
 			</ul>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li *ngIf="workspaceName | async"><p class="navbar-text">Workspace: {{ workspaceName | async }}</p></li>
-				<li *ngIf="workspaceLeaf | async"><p class="navbar-text">Leaf: {{ workspaceLeaf | async }}</p></li>
 				<li><p class="navbar-text">v.&nbsp;{{ version }}</p></li>
 			</ul>
 		</div>

@@ -1,9 +1,11 @@
 - given: En considérant que j'ai accès au logiciel
   when: lorsque j'ouvre le logiciel
   then: alors je vois l'interface principal
+  isShown: false
 - given: En considérant que j'ai ouvert le logiciel
   when: lorsque je clique sur ajouter
   then: alors un nouveau critère d'acceptation affiche.
+  isShown: false
 - given: 'En considérant que j''ai ajouter un nouveau critère d''acceptation,'
   when: lorsque j'écrit quelque chose dans la zone "given"
   then: >-
@@ -11,14 +13,17 @@
 
     dans le menu a gauche le titre du bouton change pour se qui est écrit dans
     "given"
+  isShown: false
 - given: 'En considérant que j''ai ajouter un nouveau critère d''acceptation,'
   when: 'lorsque j''écrit quelque chose dans les zones pour when ou then,'
   then: alors la zone de preview se mets a jour avec les informations entrer.
+  isShown: false
 - given: |-
     En considérant que j'ai ajouter des critères d'acceptation,
     je vois des critères d'acceptation dans le menu de gauche,
   when: lorsque je clique sur l'option pour supprimé un critère d'acceptation
   then: alors le critère choisit se supprime de la liste.
+  isShown: false
 - given: |-
     En considérant que j'ai ajouter des critères d'acceptation,
     je vois des critères d'acceptation dans le menu de gauche,
@@ -26,11 +31,13 @@
   then: |-
     alors un nouveau critère s'ajoute à la fin de la liste
     et ce critère a les valeurs du critère copié.
+  isShown: false
 - given: |-
     En considérant que j'ai ajouter des critères d'acceptation,
     je vois des critères d'acceptation dans le menu de gauche,
   when: lorsque je déplace un element dans la liste de gauche
   then: alors l'ordre de mes critères change dans l'interface.
+  isShown: false
 - given: |-
     En considérant que je vois l'interface principal,
     et que je vois le menu du haut.
@@ -38,6 +45,7 @@
   then: >-
     alors l'interface change et m'affiche un fenêtre avec deux titres "Résultat"
     et "Code"
+  isShown: false
 - given: |-
     En considérant que j'ai cliquer sur l'option "Prévisualisé",
     et que j'ai des critères d'acceptation saisit.
@@ -45,6 +53,7 @@
   then: |-
     alors la section "Résultat" contient ma liste de critère formaté,
     et la section "Code" contient le "HTML" pour mes critères d'acceptation.
+  isShown: false
 - given: |-
     En considérant que je vois la fenêtre de "Prévisualisation",
     et que la section code est remplit.
@@ -52,49 +61,60 @@
   then: >-
     alors dans mon clipboard je dois avoir le Code HTML des critères
     d'acceptation.
+  isShown: false
 - given: |-
     En considérant que je vois l'interface principal,
     et que je vois le menu du haut.
   when: lorsque je clique sur l'option "Ouvrir".
   then: alors une fenêtre me demandant de choisir un fichier s'affiche.
+  isShown: false
 - given: En considérant que j'ai choisit un fichier valide
   when: lorsque je clique sur le bouton "Ouvrir"
   then: alors mon interface se modifie pour charger le contenu du fichier.
+  isShown: false
 - given: >-
     En considérant que j'ai choisit un fichier qui n'existe pas ou qui est
     invalide.
   when: lorsque je clique sur le bouton "Ouvrir"
   then: alors rien ne change dans l'interface.
+  isShown: false
 - given: |-
     En considérant que je vois l'interface principal,
     et que je vois le menu du haut.
   when: lorsque je clique sur l'option "Sauvegarder".
   then: alors une fenêtre me demandant de choisir un fichier s'affiche.
+  isShown: false
 - given: En considérant que j'ai choisit un fichier
   when: lorsque je clique sur le bouton "Sauvegarder"
   then: >-
     alors un fichier YAML se crée sur disque avec les informations de mes
     critères.
+  isShown: false
 - given: En considérant que je n'ai pas choisit de fichier.
   when: lorsque je clique sur le bouton "Sauvegarder"
   then: alors aucun fichier est crée sur disque.
+  isShown: false
 - given: |-
     En considérant que je vois l'interface principal,
     et que je vois le menu du haut.
   when: lorsque je clique sur l'option "Importer".
   then: alors une fenêtre me demandant de saisir du YAML a importer.
+  isShown: false
 - given: |-
     En considérant que je vois la fenêtre d'importation.
     et que le YAML que je veux importer est valide.
   when: lorsque je clique sur le bouton "Importer"
   then: alors mon interface se modifie pour charger le contenu du data Importer.
+  isShown: false
 - given: |-
     En considérant que je vois la fenêtre d'importation.
     et que le YAML que je veux importer est vide ou invalide.
   when: lorsque je clique sur le bouton "Importer"
   then: alors rien ne change dans l'interface
+  isShown: false
 - given: En considérant que je vois la fenêtre d'importation.
   when: 'lorsque je clique sur "Fermer", le "X" ou a l''extérieur de la fenêtre.'
   then: |-
     alors la fenetre se ferme
     et rien ne change dans l'interface.
+  isShown: false

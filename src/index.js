@@ -20,6 +20,11 @@ parser.addArgument(
     {help: 'Active le mode debug.', defaultValue: false, action: "storeTrue"}
 );
 
+parser.addArgument(
+    ['-s', '--server'],
+    {help: 'Lance le programme avec un serveur de debug.', defaultValue: false, action: "storeTrue"}
+);
+
 let arg = process.argv.slice(1);
 if (process.argv.join(" ").indexOf("electron.exe") > -1) {
     arg = process.argv.slice(2);
@@ -41,17 +46,21 @@ const createWindow = () => {
         height: 900,
     });
 
-    // mainWindow.loadURL(url.format({
-    //     pathname: path.join(__dirname, '../dist/index.html'),
-    //     protocol: 'file:',
-    //     slashes: true
-    // }));
-
-    mainWindow.loadURL(url.format({
-        pathname: 'localhost:4200',
-        protocol: 'http:',
+    let startURL = url.format({
+        pathname: path.join(__dirname, '../dist/index.html'),
+        protocol: 'file:',
         slashes: true
-    }));
+    });
+
+    if (args.debug && args.server) {
+        startURL = url.format({
+            pathname: 'localhost:4200',
+            protocol: 'http:',
+            slashes: true
+        });
+    }
+
+    mainWindow.loadURL(startURL);
 
     if (args.debug) {
         mainWindow.webContents.openDevTools({mode: "detach"});

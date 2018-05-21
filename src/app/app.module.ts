@@ -17,12 +17,23 @@ import {ImportCriteriaComponent} from "./modules/criteria/import-criteria/import
 
 import {routes} from './app.routes'
 import {environment} from '../environments/environment';
+import {DialogDirective} from "./directives/dialog.directive";
 
+
+let devImport = [];
+// import dev only modules
+if (!environment.production) {
+    devImport = [
+        NgxsLoggerPluginModule.forRoot({logger: console, collapsed: false}),
+        NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production})
+    ];
+}
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavigationComponent
+        NavigationComponent,
+        DialogDirective
     ],
     imports: [
         BrowserModule,
@@ -34,10 +45,7 @@ import {environment} from '../environments/environment';
         RouterModule.forRoot(routes),
         NgxsModule.forRoot(states),
         NgxsFormPluginModule.forRoot(),
-        NgxsLoggerPluginModule.forRoot({logger: console, collapsed: false}),
-        NgxsReduxDevtoolsPluginModule.forRoot({
-            disabled: environment.production
-        })
+        ...devImport
     ],
     bootstrap: [AppComponent],
     entryComponents: [ImportCriteriaComponent]

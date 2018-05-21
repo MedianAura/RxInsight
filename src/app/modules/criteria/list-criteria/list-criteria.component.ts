@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Criteria} from "@model/criteria";
 import {Observable} from "rxjs";
 import {ListCriteriaService} from "@services/list-criteria.service";
@@ -11,7 +11,7 @@ import {ElectronService} from "ngx-electron";
     templateUrl: './list-criteria.component.html',
     styleUrls: ['./list-criteria.component.less']
 })
-export class ListCriteriaComponent implements OnInit {
+export class ListCriteriaComponent implements OnInit, AfterViewInit {
 
     @ViewChildren(CriteriaComponent) criteriaViewChild: QueryList<CriteriaComponent>;
 
@@ -28,6 +28,9 @@ export class ListCriteriaComponent implements OnInit {
     ngOnInit() {
     }
 
+    ngAfterViewInit(): void {
+    }
+
     addCriteria() {
         this.listCriteria.addCriteria();
     }
@@ -41,15 +44,7 @@ export class ListCriteriaComponent implements OnInit {
     }
 
     sortCriteria() {
-        let listCriteriaComponent: CriteriaComponent[] = this.criteriaViewChild.toArray();
-        let listCriteria: Criteria[] = [];
-
-        listCriteriaComponent.forEach(function (oCriteriaComponent: CriteriaComponent) {
-            listCriteria.push(oCriteriaComponent.criteria);
-        });
-
-        this.listCriteria.emptyCriteria();
-        this.listCriteria.importCriteria(listCriteria);
+        // Auto Magic
     }
 
     getAllCriteria(): Observable<Criteria[]> {

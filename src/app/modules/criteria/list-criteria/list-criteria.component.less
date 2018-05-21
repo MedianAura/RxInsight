@@ -1,17 +1,32 @@
 @import "../../../../../node_modules/dragula/dist/dragula.css";
 
 .btn-copy {
-    position: fixed;
-    bottom: 85px;
-    right: 10px;
+  & img {
+    width: 72px;
+    height: 72px;
+  }
+
+  position: fixed;
+  bottom: 80px;
+  right: 10px;
 }
 
 .btn-add {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 
-.gu-transit {
-    visibility: hidden;
+:host ::ng-deep .gu-transit {
+  & .panel.panel-criteria {
+    & > * {
+      display: none;
+    }
+
+    border: 2px solid black;
+    width: 75%;
+    margin: auto auto 20px;
+  }
+
+  opacity: 0.7;
 }

@@ -1,7 +1,7 @@
 import {Component, ComponentRef, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
 import {Criteria} from "@model/criteria";
 import {each} from 'lodash';
-import RegEx from 'regex-match-all';
+import * as RegEx from 'regex-match-all';
 import {ListCriteriaService} from "@services/list-criteria.service";
 
 @Component({
