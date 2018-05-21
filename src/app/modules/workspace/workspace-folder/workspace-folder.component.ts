@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {WorkspaceFolder} from "@model/workspace-folder";
 import {WorkspaceService} from "@services/workspace.service";
+import * as JQuery from 'jquery';
 
 @Component({
     selector: 'app-workspace-folder',

@@ -4,6 +4,7 @@ import {Criteria} from "@model/criteria";
 import {Select, Store} from "@ngxs/store";
 import {Observable} from "rxjs";
 import {CriteriaState} from "@stores/criteria.state";
+import {WorkspaceService} from "@services/workspace.service";
 
 @Injectable({
     providedIn: 'root'

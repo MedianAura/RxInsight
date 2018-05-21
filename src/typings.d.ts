@@ -4,9 +4,11 @@ interface NodeModule {
   id: string;
 }
 
-declare var $: any;
-
 declare module "*.json" {
     const value: any;
     export default value;
+}
+
+interface JQuery {
+    modal(opt: string): JQuery;
 }

@@ -1,11 +1,7 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {safeDump, safeLoad} from "js-yaml";
-import {Criteria} from "@model/criteria";
-import {ElectronService} from "ngx-electron";
 import {ModalFactoryService} from "@services/modal-factory.service";
 import {FsService} from "@services/fs.service";
 import {ListCriteriaService} from "@services/list-criteria.service";
-import {each} from 'lodash';
 import {WorkspaceService} from "@services/workspace.service";
 import {Observable} from "rxjs";
 
@@ -27,13 +23,12 @@ export class NavigationComponent implements OnInit {
         private listCriteria: ListCriteriaService,
         private modalFactory: ModalFactoryService,
         private viewContainerRef: ViewContainerRef,
-        private electronService: ElectronService,
         private fsService: FsService,
         private workspaceService: WorkspaceService
     ) {
         this.version = appVersion;
         this.modalFactory.setRootViewContainerRef(viewContainerRef);
-        this.isElectron = this.electronService.isElectronApp;
+        this.isElectron = this.fsService.isElectronApp;
         this.workspaceName = this.workspaceService.getStoreName();
         this.workspaceLeaf = this.workspaceService.getStoreLeaf();
     }
@@ -43,67 +38,22 @@ export class NavigationComponent implements OnInit {
     }
 
     newFile() {
-        this.saveFilePath = undefined;
-        this.listCriteria.emptyCriteria();
+        this.fsService.newFile();
     }
 
     openFile() {
-        let remote = this.electronService.remote;
-        let dialog = remote.dialog;
-        let sFile = dialog.showOpenDialog(remote.getCurrentWindow(), {
-            "properties": ['openFile', 'promptToCreate'], "filters": [
-                {name: 'Fichier YAML', extensions: ['yaml']},
-            ]
-        });
-
-        if (sFile.length > 0) {
-            this.saveFilePath = sFile[0];
-            this.__parseLoadedData(this.fsService.readFile(this.saveFilePath));
-        }
+        this.fsService.openFile();
     }
 
     saveFile(): boolean {
-        if (typeof this.saveFilePath === "undefined") {
-            return this.saveFileAs();
-        }
-        return this.saveCurrentFile();
+        return this.fsService.saveFile();
     }
 
     saveFileAs(): boolean {
-        let remote = this.electronService.remote;
-        let dialog = remote.dialog;
-        this.saveFilePath = dialog.showSaveDialog(remote.getCurrentWindow(), {
-            "filters": [
-                {name: 'Fichier YAML', extensions: ['yaml']},
-            ]
-        });
-
-        return this.saveCurrentFile();
+        return this.fsService.saveFileAs();
     }
 
     openImportDialog() {
         this.modalFactory.addDynamicComponent();
-    }
-
-    private saveCurrentFile(): boolean {
-        this.listCriteria.getAllCriteria().subscribe((listCreteria: Criteria[]) => {
-            this.fsService.saveFile(this.saveFilePath, safeDump(listCreteria));
-        }).unsubscribe();
-        return true;
-    }
-
-    private __parseLoadedData(sData) {
-        let aListCriteria = [];
-        let oData = safeLoad(sData);
-        each(oData, function (item) {
-            let oCriteria = new Criteria();
-            oCriteria.given = item.given;
-            oCriteria.when = item.when;
-            oCriteria.then = item.then;
-            aListCriteria.push(oCriteria);
-        });
-
-        this.listCriteria.emptyCriteria();
-        this.listCriteria.importCriteria(aListCriteria);
     }
 }

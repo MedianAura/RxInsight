@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ElectronService} from "ngx-electron";
-import * as ElectronStore from "electron-store";
 import {BehaviorSubject, Observable} from "rxjs";
 import {safeDump} from "js-yaml";
 import {remove} from "lodash";
 import {WorkspaceFolder} from "@model/workspace-folder";
 import {WorkspaceFile} from "@model/workspace-file";
+import ElectronStore = require('electron-store');
+import {FsService} from "@services/fs.service";
+import {Criteria} from "@model/criteria";
 
 @Injectable({
     providedIn: 'root'
@@ -14,12 +16,13 @@ export class WorkspaceService {
 
     private selectedPath: WorkspaceFolder;
     private readonly jetpack = null;
+    private readonly path = null;
     private readonly store: ElectronStore;
     private readonly _storeName: BehaviorSubject<string>;
     private readonly _storeLeaf: BehaviorSubject<string>;
     private readonly _storeFolder: BehaviorSubject<WorkspaceFolder>;
 
-    constructor(private electronService: ElectronService) {
+    constructor(private electronService: ElectronService, private fsService: FsService) {
         this._storeName = new BehaviorSubject<string>(null);
         this._storeLeaf = new BehaviorSubject<string>(null);
         this._storeFolder = new BehaviorSubject<WorkspaceFolder>(new WorkspaceFolder("root", "."));
@@ -28,6 +31,7 @@ export class WorkspaceService {
         if (this.electronService.isElectronApp) {
             if (window && window.require) {
                 this.jetpack = window.require('fs-jetpack');
+                this.path = window.require('path');
 
                 const Store = window.require('electron-store');
                 this.store = new Store({
@@ -36,7 +40,7 @@ export class WorkspaceService {
             }
 
             this._storeName.next(this.store.get("workspace"));
-            this._storeLeaf.next(this.store.get("leaf", null));
+            this.setStoreLeaf();
             this.manageWorkspace();
         }
     }
@@ -57,12 +61,18 @@ export class WorkspaceService {
         return this._storeLeaf;
     }
 
-    getStoreFolder(): Observable<WorkspaceFolder> {
-        return this._storeFolder;
+    setStoreLeaf() {
+        let leaf: string = this.store.get("leaf", null);
+        this._storeLeaf.next(leaf);
+        if (null === leaf) {
+            this.fsService.newFile();
+        } else {
+            this.fsService.loadFile(this.path.resolve(this.storeName, this.storeLeaf));
+        }
     }
 
-    getSelectedPath(): WorkspaceFolder {
-        return this.selectedPath;
+    getStoreFolder(): Observable<WorkspaceFolder> {
+        return this._storeFolder;
     }
 
     newWorkspace() {
@@ -103,6 +113,11 @@ export class WorkspaceService {
         }
     }
 
+    updateLeafContent(value: Observable<Criteria[]>) {
+        if (null === this.storeLeaf) return;
+        console.log(value);
+    }
+
     setSelectedPath(selectedPath: WorkspaceFolder) {
         this.selectedPath.selected = false;
         if (null === selectedPath) {
@@ -111,6 +126,18 @@ export class WorkspaceService {
             selectedPath.selected = true;
             this.selectedPath = selectedPath;
         }
+    }
+
+    setSelectedFile(selectedPath: WorkspaceFile) {
+        if (null === selectedPath) {
+            this._storeLeaf.next(null);
+            this.store.set("leaf", null);
+        } else {
+            this._storeLeaf.next(selectedPath.relativePath);
+            this.store.set("leaf", selectedPath.relativePath);
+        }
+
+        this.setStoreLeaf();
     }
 
     createWorkspaceFile() {
@@ -129,7 +156,7 @@ export class WorkspaceService {
     }
 
     deleteWorkspaceFile(file: WorkspaceFile) {
-        remove(this.selectedPath.files, function(n) {
+        remove(this.selectedPath.files, function (n) {
             return n === file;
         });
     }
@@ -151,7 +178,7 @@ export class WorkspaceService {
     }
 
     deleteWorkspaceFolder(folder: WorkspaceFolder) {
-        remove(this.selectedPath.folders, function(n) {
+        remove(this.selectedPath.folders, function (n) {
             return n === folder;
         });
     }
@@ -169,8 +196,8 @@ export class WorkspaceService {
             let remote: Electron.Remote = this.electronService.remote;
             let dialog: Electron.Dialog = remote.dialog;
 
-            let resultId = dialog.showMessageBox(remote.getCurrentWindow(), {
-                "type ": "info",
+            let resultId = dialog.showMessageBox({
+                "type": "info",
                 "title": "Initialisation de l'espace de travail",
                 "message": "Le dossier choisit n'est pas un espace de travail pour Insight désirer vous le convertir ?",
                 "buttons": ["Oui", "Non"],

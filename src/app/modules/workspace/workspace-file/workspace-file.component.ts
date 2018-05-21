@@ -26,6 +26,10 @@ export class WorkspaceFileComponent implements OnInit, AfterViewInit {
         }
     }
 
+    selectFile(): void {
+        this.workspaceService.setSelectedFile(this.file);
+    }
+
     createFileElement() {
         if (this.elementFileName.trim() === "") {
             this.workspaceService.deleteWorkspaceFile(this.file);
