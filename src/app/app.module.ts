@@ -19,8 +19,6 @@ import {routes} from './app.routes';
 import {environment} from '../environments/environment';
 import {DialogDirective} from './directives/dialog.directive';
 
-// TODO : Scroll Criteria Into View when Open
-// TODO : Add an Handle
 // TODO : Finish Workspace Component Element.
 
 let devImport = [];
