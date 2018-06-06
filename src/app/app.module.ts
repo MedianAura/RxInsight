@@ -1,24 +1,27 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {RouterModule} from "@angular/router";
-import {FormsModule} from "@angular/forms";
-import {NgxElectronModule} from "ngx-electron";
-import {DragulaModule} from "ng2-dragula";
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {NgxElectronModule} from 'ngx-electron';
+import {DragulaModule} from 'ng2-dragula';
 import {AppComponent} from './app.component';
 import {NavigationComponent} from './navigation/navigation.component';
-import {CriteriaModule} from './modules/criteria/criteria.module'
-import {WorkspaceModule} from "./modules/workspace/workspace.module";
+import {CriteriaModule} from './modules/criteria/criteria.module';
+import {WorkspaceModule} from './modules/workspace/workspace.module';
 import {NgxsModule} from '@ngxs/store';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsFormPluginModule} from '@ngxs/form-plugin';
 import {NgxsLoggerPluginModule} from '@ngxs/logger-plugin';
 import {states} from './app.state';
-import {ImportCriteriaComponent} from "./modules/criteria/import-criteria/import-criteria.component";
+import {ImportCriteriaComponent} from './modules/criteria/import-criteria/import-criteria.component';
 
-import {routes} from './app.routes'
+import {routes} from './app.routes';
 import {environment} from '../environments/environment';
-import {DialogDirective} from "./directives/dialog.directive";
+import {DialogDirective} from './directives/dialog.directive';
 
+// TODO : Scroll Criteria Into View when Open
+// TODO : Add an Handle
+// TODO : Finish Workspace Component Element.
 
 let devImport = [];
 // import dev only modules

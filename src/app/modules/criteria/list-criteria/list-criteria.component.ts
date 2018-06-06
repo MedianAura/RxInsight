@@ -20,6 +20,11 @@ export class ListCriteriaComponent implements OnInit, AfterViewInit {
         private dragulaService: DragulaService,
         private electronService: ElectronService
     ) {
+        dragulaService.setOptions('bag-one', {
+            moves: function (el, source, handle, sibling) {
+                return handle.className.indexOf('glyphicon-move') > -1;
+            },
+        });
         dragulaService.drop.subscribe((value) => {
             this.onDrop();
         });

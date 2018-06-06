@@ -11,4 +11,5 @@ declare module "*.json" {
 
 interface JQuery {
     modal(opt: string): JQuery;
+    scrollTo(opt: any, duration?: any, setting?: any): JQuery;
 }

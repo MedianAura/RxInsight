@@ -211,6 +211,12 @@
   dependencies:
     tslib "^1.9.0"
 
+"@nicky-lenaers/ngx-scroll-to@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@nicky-lenaers/ngx-scroll-to/-/ngx-scroll-to-1.0.0.tgz#2afdc03e5b3218bbb5e19ec69fb1e7f7c8eb83dc"
+  dependencies:
+    tslib "^1.9.0"
+
 "@octokit/rest@^15.2.6":
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.6.1.tgz#e19e745a8df4f30baba3d7659fb350d97991528b"
@@ -5537,7 +5543,13 @@ jmespath@0.15.0:
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
 
-jquery@^3.3.1:
+jquery.scrollto@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/jquery.scrollto/-/jquery.scrollto-2.1.2.tgz#e7580d9c7ac46ef5bb25319483f6f45713fd7c6c"
+  dependencies:
+    jquery ">=1.8"
+
+jquery@>=1.8, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 

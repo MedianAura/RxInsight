@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Criteria} from "@model/criteria";
 import {sprintf} from "sprintf-js";
 
@@ -9,13 +9,13 @@ import {sprintf} from "sprintf-js";
 })
 export class CriteriaComponent implements OnInit {
 
+    @ViewChild('criteriaRef') criteriaRef: ElementRef;
     @Input() criteria: Criteria;
     @Input() ndx: number;
     @Output() onDelete = new EventEmitter<number>();
     @Output() onClone = new EventEmitter<Criteria>();
 
-    constructor() {
-    }
+    constructor() { }
 
     ngOnInit() {
     }
@@ -34,6 +34,16 @@ export class CriteriaComponent implements OnInit {
         // let $this = $(event.target);
         // if ($this.hasClass("glyphicon")) return;
         this.criteria.isShown = !this.criteria.isShown;
+
+        if (this.criteria.isShown) {
+            $(window).scrollTo(this.criteriaRef.nativeElement, 400, {
+                axis: 'y',
+                limit: false,
+                offset: {
+                    top: -70
+                }
+            });
+        }
     }
 
     prettyGiven(): string {

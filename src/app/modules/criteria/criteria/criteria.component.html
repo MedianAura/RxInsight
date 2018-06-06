@@ -1,8 +1,15 @@
-<div class="panel panel-default panel-criteria">
+<div class="panel panel-default panel-criteria" #criteriaRef>
 	<div class="panel-heading" (click)="toggleCriteria()">
-		<div class="panel-criteria-preview" [innerHTML]="criteria.prettyPrint() | rawHtml"></div>
-		<span class="glyphicon glyphicon-trash btnDeleteCriteria" aria-hidden="true" (click)="deleteCriteria($event)"></span>
-		<span class="glyphicon glyphicon-copy btnCloneCriteria" aria-hidden="true" (click)="cloneCriteria($event)"></span>
+		<div class="wrapper-header">
+			<div class="handle-grid">
+				<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+			</div>
+			<div class="content-grid">
+				<div class="panel-criteria-preview" [innerHTML]="criteria.prettyPrint() | rawHtml"></div>
+				<span class="glyphicon glyphicon-trash btnDeleteCriteria" aria-hidden="true" (click)="deleteCriteria($event)"></span>
+				<span class="glyphicon glyphicon-copy btnCloneCriteria" aria-hidden="true" (click)="cloneCriteria($event)"></span>
+			</div>
+		</div>
 	</div>
 	
 	<div class="panel-body row animated" [class.hide]="!criteria.isShown">
