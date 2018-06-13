@@ -9,7 +9,8 @@ import {ElectronService} from "ngx-electron";
 @Component({
     selector: 'app-list-criteria',
     templateUrl: './list-criteria.component.html',
-    styleUrls: ['./list-criteria.component.less']
+    styleUrls: ['./list-criteria.component.less'],
+    providers: [DragulaService]
 })
 export class ListCriteriaComponent implements OnInit, AfterViewInit {
 
